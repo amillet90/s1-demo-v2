@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, redirect, flash
-import datetime
 
 app = Flask(__name__)
 app.secret_key = 'une cle(token) : grain de sel(any random string)'
@@ -14,23 +13,11 @@ liste_etudiants = [
 ]
 
 @app.route('/')
-@app.route('/hello')
-def hello_world():  # put application's code here
-    return 'Hello World!<a href="hello">lien hello</a>  &nbsp; <a href="/heure"> heure </a>'
-
-@app.route('/heure')
-def heure():
-    date_heure = datetime.datetime.now()
-    h = date_heure.hour
-    m = date_heure.minute
-    s = date_heure.second
-    return render_template('index_demo.html', h=h,min=m,sec=s )
-
 @app.route('/etudiant/show')
 def show_etudiants():
     return render_template('etudiant/show_etudiant.html', etudiants=liste_etudiants )
 
-@app.route('/etudiant/add')
+@app.route('/etudiant/add', methods=['GET'])
 def add_etudiant():
     print('''affichage du formulaire pour saisir un étudiant''')
     return render_template('etudiant/add_etudiant.html')
@@ -43,7 +30,7 @@ def delete_etudiant():
     print(message)
     return redirect('/etudiant/show')
 
-@app.route('/etudiant/edit')
+@app.route('/etudiant/edit', methods=['GET'])
 def edit_etudiant():
     print('''affichage du formulaire pour modifier un étudiant''')
     id=request.args.get('id')
@@ -53,6 +40,25 @@ def edit_etudiant():
     else:
         etudiant=[]
     return render_template('etudiant/edit_etudiant.html', etudiant=etudiant)
+
+@app.route('/etudiant/add', methods=['POST'])
+def valid_add_etudiant():
+    print('''ajout de l'étudiant dans le tableau''')
+    nom = request.form.get('nom')
+    groupe = request.form.get('groupe')
+    message = 'nom :' + nom + ' - groupe :' + groupe
+    print(message)
+    return redirect('/etudiant/show')
+
+@app.route('/etudiant/edit', methods=['POST'])
+def valid_edit_etudiant():
+    print('''modification de l'étudiant dans le tableau''')
+    id = request.form.get('id')
+    nom = request.form.get('nom')
+    groupe = request.form.get('groupe')
+    message = 'nom :' + nom + ' - groupe :' + groupe + ' pour l etudiant d identifiant :' + id
+    print(message)
+    return redirect('/etudiant/show')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
