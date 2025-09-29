@@ -38,11 +38,21 @@ def add_etudiant():
 @app.route('/etudiant/delete')
 def delete_etudiant():
     print('''suppression d'un étudiant''')
+    id=request.args.get('id')
+    message='paramètre dans l URL : '+id
+    print(message)
+    return redirect('/etudiant/show')
 
 @app.route('/etudiant/edit')
 def edit_etudiant():
     print('''affichage du formulaire pour modifier un étudiant''')
-    return render_template('etudiant/edit_etudiant.html')
+    id=request.args.get('id')
+    if id != None and id.isnumeric():
+        indice = int(id)
+        etudiant=liste_etudiants[indice-1]
+    else:
+        etudiant=[]
+    return render_template('etudiant/edit_etudiant.html', etudiant=etudiant)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
