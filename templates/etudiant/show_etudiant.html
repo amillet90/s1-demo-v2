@@ -8,7 +8,7 @@
 <body>
 <h1>listes des étudiants</h1>
 
-
+<a href="/etudiant/add" >ajouter un étudiant</a>
 
 {% if etudiants | length >= 1 %}
     <table class="table">
@@ -19,10 +19,11 @@
         </thead>
         {% for etudiant in etudiants %}
             <tr>
-                {# commentaires : autre notation possible, on affiche un element du dictionnaire
-                <td>{{ etudiant['id'] }}</td><td>{{ etudiant['nom'] }}</td><td>{{ etudiant['groupe'] }}</td>
-        #}
                 <td>{{ etudiant.id }}</td><td>{{ etudiant.nom }}</td><td>{{ etudiant.groupe }}</td>
+                <td>
+                    <a href="/etudiant/edit?id={{ etudiant.id }}"   class="btn btn-success">editer</a>&nbsp;
+                    <a href="/etudiant/delete?id={{ etudiant.id }}"   class="btn btn-success">supprimer</a>
+                </td>
             </tr>
         {% endfor %}
     </table>

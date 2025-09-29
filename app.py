@@ -30,5 +30,19 @@ def heure():
 def show_etudiants():
     return render_template('etudiant/show_etudiant.html', etudiants=liste_etudiants )
 
+@app.route('/etudiant/add')
+def add_etudiant():
+    print('''affichage du formulaire pour saisir un étudiant''')
+    return render_template('etudiant/add_etudiant.html')
+
+@app.route('/etudiant/delete')
+def delete_etudiant():
+    print('''suppression d'un étudiant''')
+
+@app.route('/etudiant/edit')
+def edit_etudiant():
+    print('''affichage du formulaire pour modifier un étudiant''')
+    return render_template('etudiant/edit_etudiant.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
